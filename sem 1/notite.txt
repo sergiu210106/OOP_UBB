@@ -1,0 +1,134 @@
+#include <assert.h>
+#include <math.h>
+#include <stdio.h>
+#include <c++/math.h>
+#include <stdbool.h>
+#include <string.h>
+
+#define nmax (int) 1e5
+
+bool prime(unsigned int n) {
+    if (n % 2 == 0 || n < 2) {
+        return n == 2;
+    }
+    for(int i=3;i<=sqrt(n);i+=2) {
+        if(n%i==0)
+            return false;
+    }
+    return true;
+}
+
+void test_prime() {
+    assert(prime(2) == true);
+    assert(prime(3) == true);
+    assert(prime(4) == false);
+    assert(prime(7) == true);
+    assert(prime(0) == false);
+    assert(prime(1) == false);
+}
+
+bool sieve[nmax+1];
+
+void init_sieve() {
+    memset(sieve, false, sizeof(sieve));
+    sieve[0] = sieve[1] = true;
+
+    for (int i = 2; i * i <= nmax; i++) {
+        if (!sieve[i]) {
+            for (int j = 2; j * i <= nmax; j++) {
+                sieve[j * i] = true;
+            }
+        }
+    }
+}
+
+int* all_primes_less_than(int n) {
+    int primes[nmax + 1], l = 0;
+    for (int i = 2; i <= n; i++) {
+        if (!sieve[i]) {
+            primes[l++] = i;
+        }
+    }
+    return primes;
+}
+
+int main() {
+    // n not known => we allocate dynamically primes and sieve
+
+    test_prime();
+    init_sieve();
+
+    int n;
+    scanf("%d", n);
+    int *p = all_primes_less_than(nmax);
+    printf("tests passed\n");
+
+    while (p) {
+        printf("%d\n", *p);
+        p ++;
+    }
+
+    return 0;
+}
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+unsigned int* sieve(unsigned int n, int *count) {
+    bool* v = (bool*)calloc(n + 1, sizeof(bool));
+    if (!v) {
+        perror("Memory allocation failed");
+        exit(EXIT_FAILURE);
+    }
+
+    v[0] = true;
+    v[1] = true;
+
+    for (int i = 2; i * i <= n; i++) {
+        if (!v[i]) {
+            for (int j = i * i; j <= n; j += i) {
+                v[j] = true;
+            }
+        }
+    }
+
+    // Count prime numbers
+    *count = 0;
+    for (int i = 2; i <= n; i++) {
+        if (!v[i]) {
+            (*count)++;
+        }
+    }
+
+    // Allocate memory for prime numbers
+    unsigned int* result = (unsigned int*)malloc((*count) * sizeof(unsigned int));
+    if (!result) {
+        perror("Memory allocation failed");
+        free(v);
+        exit(EXIT_FAILURE);
+    }
+
+    // Store prime numbers in the result array
+    int length = 0;
+    for (int i = 2; i <= n; i++) {
+        if (!v[i]) {
+            result[length++] = i;
+        }
+    }
+
+    free(v);
+    return result;
+}
+
+int main() {
+    int count = 0;
+    unsigned int* result = sieve(50000, &count);
+
+    for (int i = 0; i < count; i++) {
+        printf("%d\n", result[i]);
+    }
+
+    free(result);  // Free allocated memory to prevent memory leaks
+    return 0;
+}

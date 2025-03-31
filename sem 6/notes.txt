@@ -1,0 +1,8 @@
+seminar 3 (week 6)
+
+
+AcousticWave
+    -> frequency
+    -> amplitude
+    -> sample rate = how many samples do I take in one second
+    -> samples -> dynamically allocated array that holds the value that the function generates at each point

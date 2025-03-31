@@ -1,0 +1,36 @@
+destructer -> called if: delete.. or variable out of scope
+copy constructor -> implemented because assignment is a shallow copy by default
+~DynamicArray() {
+delete[] data;
+}
+
+DynamicArray(const DynamicArray& other) : size (other.size) {
+	data = new int[size]()
+	for (unsigned int i = 0; i < size; i ++) {
+		data[i] = other.data[i];
+	}
+
+}
+
+DynamicArray& operator=(const DynamicArray& other) {
+	if (this != &other) {
+		delete[] data;
+		size = other.size;
+		data = new int[size]();
+		for (int i = 0; i < size; i ++) {
+			data[i] = other.data[i];
+		}
+	}
+
+Namespaces
+
+example:
+#include <iostream>
+using namespace std;
+-> can lead to variable name clashes
+
+or
+using std::cout; -> so you can write cout instead of std::cout
+
+don't use methods in the main.cpp -> separate in .h and .cpp each class
+

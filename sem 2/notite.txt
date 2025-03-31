@@ -1,0 +1,4 @@
+dynamic array
+
+TElem* elements,
+capacity, length

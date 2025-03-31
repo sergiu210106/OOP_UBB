@@ -1,0 +1,144 @@
+bit.ly/4iddW5q
+
+
+1.
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+
+int main(){
+
+    printf("Hello World\n");
+    char name[80];
+    printf("enter your name: ");
+    scanf(name, 80, stdin);
+    printf("hello ");
+    printf("%79s", name);
+    printf("\n");
+
+    int day;
+    printf("enter day of birth: ");
+    scanf("%d", &day);
+
+    int month;
+    printf("enter month of birth: ");
+    scanf("%d", &month);
+
+    int year;
+    printf("enter birth year: ");
+    scanf("%d", &year);
+
+
+    time_t seconds = time(NULL);
+    struct tm* current_time= localtime(&seconds);
+    int age = current_time->tm_year + 1900 - year;
+
+    printf("You are %d years old", &age);
+
+    return 0;
+}
+
+2.
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+
+int main(){
+    
+    for(int a = 9; a >= 0; a --){
+        for(int b = a; b >= 0; b --){
+            for(int c = b; c >= 0; c --){
+                int d = 24-a-b-c;
+                if(0 <= d && d <= c){
+                    printf("%d%d%d%d",&a,&b,&c,&d);
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+
+3.
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+
+int main(){
+    int n;
+    scanf("%d", &n);
+    int nr = 0;
+    while(n != 0){
+        nr= nr + n%2;
+        n = n / 2;
+    }
+    printf("%d",  nr);
+    return 0;
+}
+4.
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+
+int main(){
+    int year;
+    scanf("%d", &year);
+
+    if (year < 1876){
+        printf("Invalid input, the year shhould be greater or equal to 1876");
+        return 0;
+    }
+
+    int a = year % 19;
+    int b = year % 4;
+    int c = year % 7;
+    int d = (19 * a + 24) % 30;
+    int e = (2*b+4*c+6*d+5)%7;
+
+    int day = 22 + e + d;
+
+    char month[80];
+    if (day >  31){
+        strcpy(month, "April");
+        day-=31;
+    }
+    else{
+        strcpy(month, "March");
+    }
+
+    printf("In year %d  the Easter date is %79s %d", year, month, day);
+    return 0;
+}
+
+5.
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+
+int main(){
+    int num;
+    char str[100]; // Adjust size as needed
+
+    // Read an integer
+    scanf("%d", &num);
+    getchar(); // Consume the newline character left by scanf
+
+    // Read the string (including spaces)
+    fgets(str, sizeof(str), stdin);
+
+    // Remove the newline character if present
+    
+    str[strcspn(str, "\n")] = '\0';
+
+    for(int i = 0; i < strlen(str); i ++){
+        if(str[i] <= 'z' && str[i] >= 'a'){
+            int val = (str[i] - 'a');
+            val = (26 + val-num)%26;
+            printf("%c", (char)((int)('a') + val));
+        }
+        else  
+            printf("%c", str[i]);
+    }
+
+    return 0;
+}
