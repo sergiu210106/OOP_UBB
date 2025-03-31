@@ -83,7 +83,12 @@ class Bishop : public ChessPiece {
         bool movePiece(unsigned int newX, unsigned int newY) {
             if (newX < 1 or newX > 8 or newY < 1 or newY > 8)
                 return false;
-            return (modullus(newX - this->m_positionX) == modullus(newY - this->m_positionY));
+            if((modullus(newX - this->m_positionX) == modullus(newY - this->m_positionY))) {
+                this->m_positionX = newX;
+                this->m_positionY = newY;
+                return true;
+            }
+            return false;
         }
 };
 
@@ -94,7 +99,12 @@ class Rook : public ChessPiece {
     bool movePiece(unsigned int newX, unsigned int newY) {
         if (newX < 1 or newX > 8 or newY < 1 or newY > 8)
             return false;
-        return (newX - this->m_positionX) * (newY - this->m_positionY) == 0;
+        if( (newX - this->m_positionX) * (newY - this->m_positionY) == 0) {
+            this->m_positionX = newX;
+            this->m_positionY = newY;
+            return true;
+        }
+        return false;
     }
 };
 
@@ -105,7 +115,49 @@ class Pawn : public ChessPiece {
     bool movePiece(unsigned int newX, unsigned int newY) {
         if (newX < 1 or newX > 8 or newY < 1 or newY > 8)
             return false;
-        return (this->getColor() == 'w' and newX == this->m_positionX - 1) or (this->getColor() == 'b' and newX == this->m_positionX + 1);
+        if( (this->getColor() == 'w' and newX == this->m_positionX - 1) or (this->getColor() == 'b' and newX == this->m_positionX + 1)) 
+        // positionX is the row and positionY the column
+        {
+            this->m_positionX = newX;
+            this->m_positionY = newY;
+            return true;
+        }
+        return false;
     }
 };
 
+class Queen : public ChessPiece {
+    public:
+    Queen(unsigned int positionX, unsigned int positionY, char color) :
+    ChessPiece{positionX, positionY, "Queen", color}{}
+    bool movePiece(unsigned int newX, unsigned int newY) {
+        if (newX < 1 or newX > 8 or newY < 1 or newY > 8)
+            return false;
+        if((newX - this->m_positionX) * (newY - this->m_positionY) == 0 || (modullus(newX - this->m_positionX) == modullus(newY - this->m_positionY))) 
+        {
+            this->m_positionX = newX;
+            this->m_positionY = newY;
+            return true;
+        }
+
+        return false;
+    }
+};
+
+class King : public ChessPiece {
+    public:
+    King(unsigned int positionX, unsigned int positionY, char color):
+    ChessPiece{positionX,positionY,"King",color}{}
+
+    bool movePiece(unsigned int newX, unsigned int newY) {
+        if (newX < 1 or newX > 8 or newY < 1 or newY > 8)
+            return false;
+
+        if(!(modullus(newX - this->m_positionX) + modullus(newY - this->m_positionY) == 1))
+            return false;
+        
+        this->m_positionX = newX;
+        this->m_positionY = newY;
+        return true;
+    }
+};
