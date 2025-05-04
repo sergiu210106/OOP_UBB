@@ -1,0 +1,157 @@
+Polymorphism in C++
+
+Binding refers to the process in which identifiers, such as variables or method names, 
+are converted into addresses. Static/early binding occurs when the compiler can
+directly determine the identifier with a machine address. On the other hand, in C++,
+late/dynamic binding occurs when the machine address is not known at compile time and 
+is resolved at run-time. In the remainder of this laboratory, we will focus on dynamic
+polymorphism and late binding.
+
+Polymorphism -> polys(many), morphe(shapes)
+    - refers to the ability to adapt the behaviour of an object to the context
+    - i.e. the function to be called is decided based on the actual type of the object
+    - in c++, there are two types of polymorphism based on when the types are resolved:
+        + static or compile-time polymorphism -> can be achieved by method overloading
+        or by templates(covered in the next laboratories)
+        + dynamic or run-time polymorphism -> can be achieved by inheritance and 
+        virtual functions
+
+virtual methods
+
+In the previous laboratory, we learned about the inheritance relationship (“IS A” relationship)
+between classes, and we saw that when we create a derived class it “comprises” two parts: one part
+for the base class and one part for the derived class. In other words, when we construct an object
+belonging to a derived class, first the base class constructor is called (to initialize the members that
+the object inherits from the base class) and then the derived class constructor is called (to initialize
+the members belonging to the derived class).
+
+Because of this (since a derived class has a base class part), C++ allows you to set a base class
+reference or a pointer to a derived class object.
+
+// see example1.cpp
+
+In the example above, we use aCat (base class pointer) and aDog (base class reference) to refer to the
+objects c and d belonging to the derived classes. However, if we run this code, we see that when
+calling the speak() method on these pointers (aCat) and references (aDog) the speak() function from the
+base class is called. And this might not be what you expected. Because c and d are actually Cat and
+Dog instances, one would expect that the speak() function from the Cat and Dog classes to be called.
+To achieve this (i.e. dynamic polymorphism and late binding) in C++ you need to use virtual
+functions. A virtual function is a special type of function that, when called, resolves to the
+most-derived version of the function that exists between the base and derived class.
+To mark a method as virtual in C++, you just need to use the virtual keyword.
+Let’s modify the previous example to use virtual functions!
+
+// see example2.cpp
+
+We just added the virtual keyword in front of the speak() function inside the base class. Also, it’s a
+good practice to mark the overridden functions with the override specifier in the derived classes: void
+speak() override{ cout<<"Meow!"<<endl;}. Now, the code works just as you expected. The derived
+versions of the speak() method are being called.
+Keep in mind that if a function is marked as virtual, all the matching function overrides in derived
+classes are implicitly virtual.
+It is a good practice to mark the destructors of the base class as virtual. If you don’t actually need to
+implement the destructor, you can use the default implementation provided by the compiler by using
+the default keyword:
+
+virtual ~<class_name>() = default;
+, where you should replace <class_name> with the name of your class.
+
+In order to implement virtual functions and dynamic polymorphism, C++ uses a virtual table. The
+virtual table is just a lookup table that contains pointers to functions and it is used for dynamic
+binding (i.e. to resolve function calls).
+
+Every class that has at least one virtual function is automatically assigned a virtual table. This table
+contains an entry for each virtual function of the class; an entry in the table is just a function pointer
+that points to the most-derived function accessible by that class. The compiler automatically adds a
+hidden member variable to the base class (vptr) which points to the virtual table of the class. Take
+note that this hidden member is also inherited by the derived classes.
+
+tl;dr
+In order for dynamic polymorphism to work, two conditions must be met:
+- you need to work with pointers or references to the base class;
+- the methods that are overridden in the derived classes must be marked as virtual in the
+base class.
+
+Object slicing
+
+We saw that in order to use dynamic polymorphism in C++ we need to use non-value types (i.e.
+pointers or references) to the base class. Let’s see what happens if we simply assign a derived object
+to a base object. Because the derived object has a base part and a derived part, when we use simple
+assignment between a base class object and a derived class object, only the base part gets copied,
+while the derived part is “sliced off ”. This is called object slicing.
+
+Dog d{};
+Animal a{d};
+a.speak();
+
+This code will call the speak() method from the animal class because this instruction Animal a{d};
+performs object slicing. Therefore the variable a does not have a Dog part, only the Animal part, so
+the speak() method from the Animal class is called.
+
+Abstract methods. Abstract classes. Interfaces.
+
+An abstract method is a function declared within a class or an interface, but it does not have any
+definition (implementation). Abstract methods in C++ are the methods declared as pure virtual
+functions. An abstract class is a class that contains at least one abstract function.
+To define a pure virtual method in C++ you need to use the following syntax in the class declaration
+(header):
+
+class Shape {
+public:
+virtual double area() = 0;
+};
+
+You just need to put the virtual function in front of the function declaration (i.e. virtual
+<return_type> <function_name>({<param_type> <param_name>}).
+The method area is a pure virtual function (notice = 0; at the end of the method declaration). The
+area function does not have an implementation (a body).
+Interfaces: An interface is a class with no members and only abstract methods. Unlike other
+programming languages such as Java or C#, C++ does not provide an explicit interface type. An
+interface in C++ is just a class with only pure virtual functions.
+The Shape class from the example above is an interface.
+
+Abstract classes: An abstract class is a class that has at least one abstract method. Abstract classes
+cannot be instantiated (i.e. you cannot create objects belonging to an abstract class), instead they can
+be used as a base class for other classes. Note that the derived classes need to provide
+implementations for all the abstract methods, otherwise they will be considered abstract classes as
+well.
+Now let’s transform the Shape interface into an abstract class:
+
+// see example3.cpp
+
+In the example above, Shape is an abstract class because it has a pure virtual function (the area
+function). However, it is no longer an interface because it also has a state (defined by the m_x and
+m_y attributes), and non-abstract methods.
+
+Abstract classes cannot be instantiated (i.e. you cannot create objects belonging to abstract classes).
+However, you can define subclasses of abstract classes, implement all the pure virtual functions in the
+base class, and then instantiate the derived class.
+
+If a class derives from an abstract class and does not implement all the pure virtual functions from
+the base class, then the derived class is also an abstract class.
+
+Upcasting and downcasting
+
+Generally speaking, casting is the process in which a data type is converted into another datatype.
+Upcasting and downcasting refer to casting operations on class hierarchies (in the context of
+inheritance).
+
+Upcasting (i.e. “moving up” in the inheritance tree) refers to the process of converting a pointer (or a
+reference) of a derived class into a pointer (or a reference) of the base class. In C++ upcasting is
+implicit (because inheritance implements an “IS-A” relationship, therefore the derived class has all the
+attributes and behaviors of the base class).
+
+Downcasting (i.e. “moving down” in the inheritance tree) refers to the process of converting a
+pointer (or a reference) of a base class into a pointer (or a reference) of the derived class. As opposed
+to upcasting, this operation must be performed explicitly (the base class may not have all the
+members of the derived class; you should explicitly perform this operation when you know that the
+pointer or reference of the base class is a pointer or reference to an object of the derived class).
+To perform downcasting in C++, the best practice is to use dynamic_cast
+(https://en.cppreference.com/w/cpp/language/dynamic_cast ). dynamic_cast “notifies” you if the
+downcasting operation was successful:
+- if you are trying to convert a pointer of the base class to a pointer of the derived class and
+the operation fails, the function returns nullptr;
+- If you are trying to convert a reference of the base class to a reference of the derived class
+and the operation fails, the function throws a std::bad_cast exception. Exceptions will be
+covered in the next laboratories.
+
