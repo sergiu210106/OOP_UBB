@@ -1,0 +1,46 @@
+main features of OOP:
+    - inheritance
+    - encapsulation
+    - abstraction
+    - polymorphism
+
+inheritance allows creating new classes (derived classes) based on existing classes(base classes)
+    - the derived class "inherits" the public and protected members (attributes and methods) of the base class
+    - main advantage -> "code reuse"
+
+
+To implement inheritance example in c++ the following syntax is used:
+    class <derived_class_name> : [inheritance_access_modifier] <base_class_name> {
+        // code
+    };
+
+, where <base_class_name> is the name of the parent class (Shape in example1.cpp) and <derived_class_name> 
+is the name of the derived class (Circle in example1.cpp).
+
+the derived class has direct access to the public and protected members (attributes and methods) of the base class,
+but it does not have direct access to the private members.
+
+In addition, there are three types of ways in which a child class can inherit from the parent class: 
+    - private (the default inheritance type)
+    - protected
+    - public
+this is specified by the [inheritance_access_modifier]. These methods of inheritance can change the access of the inherited members,
+as illustrated in image.png.
+
+Method overloading and method overriding
+
+Method overloading 
+    - occurs when you have multiple methods with the same name but different signatures (different parameters). 
+    - ex. when you define several constructors for your class (default, parameterized, copy constructor)
+    -> they have the same name but the number of the parameters differs
+    - when you call a method, the compiler decides which method to call based on the parameters you pass
+    
+Method overriding
+    - only makes sense in the context of inheritance
+    - refers to the case in which a subclass provides a specific implementation for a method already defined in its super-class
+    - to override a method, you need to create a method with the exact same signature as in the super-class
+    - good practice -> add "override" in class definition
+    - ex. 
+    void displayInfo() override {
+        // code
+    }

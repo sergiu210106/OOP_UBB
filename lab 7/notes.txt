@@ -1,0 +1,4 @@
+we have a class parent and class child
+
+if the function in the parent has virtual in front, they can be overriden
+else it will just pe inherited as is.
