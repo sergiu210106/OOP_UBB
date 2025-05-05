@@ -1,0 +1,23 @@
+During seminar 4, we implemented the MediaItem and VideoItem classes, as well as the Repository (adding to the vector
+of items, and retrieving all items - add, get_all), discussing particularities of inheritance and polymorphism. 
+
+The code was completed with a removal method (remove an item from the collection of items based on artist and title), and 
+code for service and ui layers. A RepositoryFile class was added to follow the requirement that the media items should be loaded 
+from a text file. 
+
+We now have a fully functioning application that helps us manage media items. We can add, remove, and print all media items. 
+
+However, there are still some things to figure out and to improve:
+
+1) We have some memory leaks. Can you figure out where they come from and how should the code be modified to get rid of them?
+   Try each operation from the console. 
+2) We have not handled cases with wrong input (e.g. for duration string), nor did we do any checks when we do our operations
+   (for instance, when we try to add, that there is not already a media item with the same title and artist). How can we do this?
+3) Does it make sense that RepositoryFile inherits from Repository? 
+4) Can we use the repos interchangeably in the application? 
+5) The Repository destructor is marked "virtual". Is this necessary?
+6) The MediaItem method "toString" is marked virtual. Is this necessary?
+7) Are there member functions in the classes that are not marked as const in the code but they could be?
+
+
+

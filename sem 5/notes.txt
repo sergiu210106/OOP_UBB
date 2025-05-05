@@ -1,0 +1,20 @@
+SEMINAR 6
+
+INHERITANCE AND POLYMORPHISM -> KEY TAKEAWAYS
+
+-> derived class object has the responsibility to initialize all members, including inherited ones
+        -> call direct base class constructor
+            Wolf->Canine->Animal
+            -> if no explicit constructor call is made -> default constructor called
+
+    
+-> e.g. create wolf class
+        Animal->Canine->Wolf
+
+when there is a possibility of polymorphism always implement a default destructor for the base class
+
+-> for the right destructor to be called when destroying objects of derived class
+    virtual ~Base() = default()
+
+The destructors are called from the derived class up to the base class
+
