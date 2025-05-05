@@ -1,0 +1,29 @@
+Containers in the C++ standard library
+A container is a data structure that stores several objects (of the same type) organized based on
+some specific rules. We can distinguish between sequence containers and associative containers.
+- Sequence containers (such as vectors or arrays) store independent objects in which elements
+can be accessed sequentially;
+- Associative containers (such as maps or dictionaries) store key-value pairs.
+
+
+Lambda functions. In C++, a lambda function/expression is an anonymous function that can be
+defined inline, without polluting the global namespace of the program.
+The syntax for a lambda expression is the following:
+[ captureClause ] ( parameters ) -> returnType
+{
+// lambda body
+}
+In captureClause you can specify a list of variables that you want to access inside the lambda
+function (by default, you don’t have access to the variables defined outside the lambda function).
+The capture clause can be empty. There are two special symbols that you can use to capture all the
+variables outside the lambda function:
+● [=] is used to capture all the outside variables by value.
+● [&] is used to capture all the outside variables by reference.
+parameters can be empty if no parameters are required, just like for a normal function that
+doesn’t take any parameters.
+The return type (-> returnType ) is completely optional.
+Consider the case in which you have a vector of students and you want to display it sorted by
+different criteria. By checking the documentation you will see that the sort function can be used to
+sort a vector based on specified criteria. If you were to sort the vector both ascendingly and
+decreasingly by their name and their GPA you would need to define four functions that will be used
+only once. Lambda functions allow you to define these sorting criteria locally.
