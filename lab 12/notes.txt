@@ -1,0 +1,152 @@
+#include "mainwindow.h"
+#include <iostream>
+#include <string>
+#include <QString>
+#include <QApplication>
+
+int main(int argc, char * argv[]) {
+    QApplication app(argc, argv);
+
+    std::string stdString = "Hello, Qt!";
+
+    // use the static method fromStdString to convert std::string to QString
+    QString qtString = QString::fromStdString(stdString);
+
+    // Convert qtString to all uppercase
+    QString qtStringUpper = qtString.toUpper();
+
+    // use toStdString to convert the QString to std::string
+    std::cout << "Converted QString to uppercase: " << qtStringUpper.toStdString() << std::endl;
+
+    return 0;
+}
+
+
+
+
+#include <QApplication>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+
+int main (int argc, char * argv[]) {
+    QApplication app (argc, argv);
+
+    // main widget
+    QWidget window;
+    window.setWindowTitle("Login");
+    window.resize(250, 100);
+
+    // username label and text edit
+    QLabel *usernameLabel = new QLabel(&window);
+    usernameLabel->setText("&Username:");
+    usernameLabel->move(10, 10);
+
+    QLineEdit * usernameEdit = new QLineEdit(&window);
+    usernameEdit->move(80, 10);
+
+    usernameLabel->setBuddy(usernameEdit);
+
+    // password label and edit
+    QLabel * passwordLabel = new QLabel(&window);
+    passwordLabel->setText("&Password:");
+    passwordLabel->move(10, 40);
+
+
+    QLineEdit * passwordEdit = new QLineEdit(&window);
+    passwordEdit->move(80, 40);
+    passwordEdit->setEchoMode(QLineEdit::Password);
+    
+    passwordLabel->setBuddy(passwordEdit);
+    
+    // send button
+    QPushButton * sendButton = new QPushButton(&window);
+    sendButton->setText("Login");
+    sendButton->move(80, 70);
+    
+    window.show();
+    return app.exec();
+}
+
+
+#include <QApplication>
+#include <QWidget>
+#include <QLabel>
+#include <QListWidget>
+
+int main(int argc, char * argv[]) {
+    QApplication app(argc, argv);
+    QWidget window;
+    
+    window.setWindowTitle("Planets ");
+    window.resize(180, 20);
+    
+    QLabel * label = new QLabel ("Planets in the Solar system", &window);
+    label->move(10, 10);
+    label->resize(180, 200);
+    
+    QListWidget * listWidget = new QListWidget(&window);
+    listWidget->move(10, 40);
+    listWidget->resize(180, 200);
+    
+    listWidget->addItem("Mercury");
+    listWidget->addItem("Venus");
+    listWidget->addItem("Earth");
+    listWidget->addItem("Mars");
+    listWidget->addItem("Jupiter");
+    listWidget->addItem("Saturn");
+    listWidget->addItem("Uranus");
+    listWidget->addItem("Neptune");
+    window.show();
+    
+    return app.exec();
+}
+
+#include <QApplication>
+#include <QLabel>
+#include <QTableWidget>
+#include <QStringList>
+#include <QHeaderView>
+
+int main(int argc, char * argv[]) {
+    QApplication app(argc, argv);
+
+    QWidget window;
+    window.setWindowTitle("Planets of the Solar System:");
+    window.resize(500, 380);
+
+    QLabel * label = new QLabel("Planets in the Solar System", &window);
+    label->move(10, 10);
+    label->resize(480, 20);
+
+    QTableWidget * tableWidget = new QTableWidget(&window);
+    tableWidget->move(10, 40);
+    tableWidget->resize(480, 300);
+    tableWidget->setRowCount(8);
+    tableWidget->setColumnCount(4);
+
+    // set column headers
+    QStringList headers = {"Name", "Distance from the Sun(AU)", "Diameter(km)", "Revolution Period (Earth Years)"};
+    tableWidget->setHorizontalHeaderLabels(headers);
+    // add planet details
+    QStringList planetNames = {"Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
+    QStringList distances = {"0.39", "0.72", "1.00", "1.52", "5.20", "9.58", "19.22", "30.05"};
+    QStringList diameters = {"4879", "12104", "12756", "6792", "142984", "120536", "51118", "49528"};
+    QStringList revolutionPeriods = {"0.24", "0.62", "1.00", "1.88", "11.86", "29.46", "84.01", "164.79"};
+
+    for (int i = 0; i < planetNames.size(); i ++) {
+        tableWidget->setItem(i, 0, new QTableWidgetItem(planetNames.at(i)));
+        tableWidget->setItem(i, 1, new QTableWidgetItem(distances.at(i)));
+        tableWidget->setItem(i, 2, new QTableWidgetItem(diameters.at(i)));
+        tableWidget->setItem(i, 3, new QTableWidgetItem(revolutionPeriods.at(i)));
+    }
+
+    // make the table headers visible and adjust to fit contents
+    tableWidget->horizontalHeader()->setVisible(true);
+
+    tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    tableWidget->verticalHeader()->setVisible(false); // hide vertical bar
+
+    window.show();
+    return app.exec();
+}

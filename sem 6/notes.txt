@@ -1,0 +1,19 @@
+SEMINAR 6
+
+    -> extend songManagement app
+    -> add Playlist
+        -> can add item to playlist by artist and title
+        -> add all items from artist
+        -> show content of Playlist
+        -> export Playlist -> csv, html
+
+
+raw pointer MediaItem*
+
+smart pointers: -> difference: they delete themselves, called on the stack
+    - unique_ptr
+    - shared_ptr 
+
+// for code check sem 5 / songManagement app
+
+UI->service->repo

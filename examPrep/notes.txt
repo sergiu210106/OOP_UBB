@@ -1,0 +1,64 @@
+In C/C++, a program's memory layout can be divided into four main section:
+	- The code/text section: contains the compiled machine instructions of the program. This section is read-only, meaning that the instructions stored here cannot be modified at runtime.
+	- The data section: contains initialized global and static variables, as well as constant values. This section is tipically located after the code section; this area is separated into initialized and uninitialized data
+	- The heap is a dynamic memory area that is allocated and managed by the program at runtime. The heap is used to store dynamically allocated data (with malloc, calloc, realloc in C or new in C++). Unlike the stack, the heap is allocated explicitly by programmers and it won't be deallocated until it is explicitly freed.
+	- The stack is a special area of memory that is used to store function calls and local variables. The stack grows and shrinks as functions are called and the control returns from these functions, and each function call creates a new stack frame, which contains information such as local variables, function arguments and the return address. The stack is limited in size and it is automatically managed by the compiler.
+
+Pointers are a powerful feature in C/C++ that allow you to directly manipulate memory addresses. A pointer is simply a variable that stores a memory address of another variable. 
+	The most important aspects when working with pointers are:
+		- declaration: datatype*
+		- how to assign value to a pointer: p = & variable;
+		- how to access the value stored at the memory address: *p
+
+Pass by Value: (this is the default way of passing the arguments to a function) a copy of the value of the argument is passed to the function. The function works on the copy of the value, and any changes made to the value inside the function do not affect the original argument in the calling function.
+
+For example, in the code:
+
+void swap(int a, int b) {
+	int temp = a;
+	a = b;
+ 	b = temp;
+}
+
+int main() {
+	int x = 10, y = 20;
+	swap(x, y);
+	printf("x = %d, y = %d", x, y);
+	return 0;
+}
+
+The output will be x = 10, y = 20.
+
+Pass by Address/Pointer: In this method, a pointer to the memory location of the argument is passed to the function. The function works on the original argument using the pointer, and any changes made to the argument inside the function affect the original argument in the calling function.
+
+void swap(int *a, int *b) {
+	int temp = *a;
+	*a = *b;	
+	*b = temp;
+}
+
+int main() {
+	int x = 10, y = 20;
+	swap(&x, &y);
+	printf("x = %d, y = %d", x, y);
+	return 0;
+}
+
+In the above example, the swap function takes two integer pointers a and b and swaps their values using a temporary variable. Since the arguments are passed by reference using the & operator, the original values of x and y are swapped. The changes from the previous example are:
+	
+	void swap(int *a, int *b) - the function takes as parameters pointer int: int *
+	*a, *b - we are using dereferencing operator inside the function to access the value stored at the memory address.
+	swap(&x, &y) - when calling the function we need to use the & (address of) operator to pass the address of x and y to the function
+
+
+In C, pointers and arrays are closely related concepts, and an array name can be used interchangeably with a pointer to the first element of the array. Also, we can use pointer arithmetics to access the other elements of the array.
+
+An array is a collection of elements of the same data type, stored in contiguous memory locations. The elements of an array can be accessed using the indexing operation([]). For example, in the following array declaration, we have created an array of integers with 5 elements.
+
+int arr[5] = {1, 2, 3, 4, 5};
+// use the indexing operation to get the second element in the array
+int second = arr[1];
+
+
+// pana aici m am uitat in lab-uri, trecem la cursuri
+ 

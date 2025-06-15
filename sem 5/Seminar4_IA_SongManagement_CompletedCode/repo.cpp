@@ -1,5 +1,6 @@
 #include "repo.h"
 #include <algorithm>
+#include <vector>
 
 void Repository::add(MediaItem* item) {
 	items.push_back(item);
@@ -85,3 +86,5 @@ class UndoRemove : public UndoAction {
 
 };
 
+
+  

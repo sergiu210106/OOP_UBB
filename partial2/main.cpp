@@ -85,8 +85,5 @@ int main() {
     } else {
         cout << "Failed to load account from file" << endl;
     }
-
-    
-
     return 0;
 }
